@@ -4,7 +4,7 @@ dataclasses-json==0.4.2
 deepspeech==0.9.3
 detect-simd==0.2
 hypercorn==0.10.1
-Jinja2==2.11.2
+Jinja2==3.0.3
 json5==0.9.3
 jsonlines==1.2.0
 larynx~=0.3.0
@@ -14,7 +14,7 @@ networkx==2.4
 num2words==0.5.10
 paho-mqtt==1.5.0
 pocketsphinx==0.1.15
-pvporcupine~=1.9.0
+pvporcupine==2.1.4
 PyAudio==0.2.11
 pydash==4.7.6
 pyparsing==2.4.7

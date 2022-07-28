@@ -139,7 +139,7 @@ COPY configure config.sub config.guess \
      ${BUILD_DIR}/
 
 RUN cd ${BUILD_DIR} && \
-    ./configure --enable-in-place --prefix=${APP_DIR}/.venv
+    ./configure --disable-deepspeech --disable-pocketsphinx --enable-in-place --prefix=${APP_DIR}/.venv
 
 COPY scripts/install/ ${BUILD_DIR}/scripts/install/
 
@@ -158,7 +158,8 @@ RUN --mount=type=cache,id=pip-build,target=/root/.cache/pip \
     export POCKETSPHINX_FROM_SRC=no && \
     cd ${BUILD_DIR} && \
     make && \
-    make install
+    make install && \
+    pip3 install markupsafe==2.0.1
 
 # Copy pre-compiled extension for Raven
 RUN mkdir -p ${APP_DIR}/rhasspy-wake-raven/rhasspywake_raven && \
