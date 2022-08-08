@@ -166,7 +166,8 @@ RUN --mount=type=cache,id=pip-build,target=/root/.cache/pip \
     export POCKETSPHINX_FROM_SRC=no && \
     cd ${BUILD_DIR} && \
     make && \
-    make install
+    make install && \
+    pip3 install markupsafe==2.0.1
 
 # Copy pre-compiled extension for Raven
 RUN mkdir -p ${APP_DIR}/rhasspy-wake-raven/rhasspywake_raven && \
