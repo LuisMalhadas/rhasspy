@@ -139,7 +139,7 @@ COPY configure config.sub config.guess \
      ${BUILD_DIR}/
 
 RUN cd ${BUILD_DIR} && \
-    ./configure --disable-deepspeech --disable-pocketsphinx --enable-snips --enable-in-place --prefix=${APP_DIR}/.venv
+./configure --disable-deepspeech --enable-in-place --prefix=${APP_DIR}/.venv
 
 COPY scripts/install/ ${BUILD_DIR}/scripts/install/
 
@@ -149,7 +149,7 @@ RUN --mount=type=cache,id=pip-build,target=/root/.cache/pip \
     mkdir -p /var/cache/apt/${TARGETARCH}${TARGETVARIANT}/archives/partial && \
     apt-get update && \
     apt-get install --yes --no-install-recommends \
-        cargo && \
+        cargo libpulse-dev pulseaudio && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     pip3 install setuptools_rust && \
     . ./$HOME/.cargo/env && \
