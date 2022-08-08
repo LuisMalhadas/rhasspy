@@ -139,16 +139,24 @@ COPY configure config.sub config.guess \
      ${BUILD_DIR}/
 
 RUN cd ${BUILD_DIR} && \
-    ./configure --disable-deepspeech --disable-pocketsphinx --enable-in-place --prefix=${APP_DIR}/.venv
+./configure --disable-deepspeech --enable-in-place --prefix=${APP_DIR}/.venv
 
 COPY scripts/install/ ${BUILD_DIR}/scripts/install/
 
 COPY RHASSPY_DIRS ${BUILD_DIR}/
 
 RUN --mount=type=cache,id=pip-build,target=/root/.cache/pip \
+    mkdir -p /var/cache/apt/${TARGETARCH}${TARGETVARIANT}/archives/partial && \
+    apt-get update && \
+    apt-get install --yes --no-install-recommends \
+        cargo libpulse-dev pulseaudio && \
+    curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+    pip3 install setuptools_rust && \
+    . ./$HOME/.cargo/env && \
+    rustup update && \
     export PIP_INSTALL_ARGS="-f ${DOWNLOAD_DIR}/shared -f ${DOWNLOAD_DIR}/${TARGETARCH}${TARGETVARIANT}" && \
     export PIP_PREINSTALL_PACKAGES='numpy==1.20.1 scipy==1.5.1' && \
-    export PIP_VERSION='pip<=20.2.4' && \
+    export PIP_VERSION='pip<=22.2.2' && \
     if [ "${TARGETARCH}${TARGETVARIANT}" = 'amd64' ]; then \
         export PIP_PREINSTALL_PACKAGES="${PIP_PREINSTALL_PACKAGES} detect-simd~=0.2.0"; \
     fi && \
